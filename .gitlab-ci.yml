@@ -1,0 +1,33 @@
+stages:
+  - build
+  - test
+
+backend-build:
+  stage: build
+  image: maven:3.9.6-eclipse-temurin-17 # Or another Maven+Java image
+  script:
+    - cd gateway
+    - mvn clean package -DskipTests
+
+backend-test:
+  stage: test
+  image: maven:3.9.6-eclipse-temurin-17
+  script:
+    - cd gateway
+    - mvn test
+
+frontend-build:
+  stage: build
+  image: node:18
+  script:
+    - cd frontend
+    - npm install
+    - npm run build
+
+frontend-test:
+  stage: test
+  image: node:18
+  script:
+    - cd frontend
+    - npm install
+    - npm test -- --watchAll=false
