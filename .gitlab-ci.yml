@@ -31,3 +31,13 @@ frontend-test:
     - cd frontend
     - npm install
     - npm test -- --watchAll=false
+  cache:
+    paths:
+      - frontend/node_modules
+  dependencies:
+    - frontend-build
+
+# Optional:
+# Uncomment below to run only on main branch or specific branches
+# only:
+#   - main
