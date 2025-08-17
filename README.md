@@ -110,7 +110,7 @@ Output: frontend/build directory
 
 - **Backend:** Deploy to [Railway](https://railway.app)
   - Set environment variables: `DB_URL`, `DB_USER`, `DB_PASS`, `JWT_SECRET`, `ALLOWED_ORIGIN`
-  - Start command: `java -jar target/api-gateway-app.jar`
+  - Start command: `java -jar target/gateway.jar`
   - Update `allowed.origin=${ALLOWED_ORIGIN}` in `application.properties`
 - **Frontend:** Deploy to [Vercel](https://vercel.com)
   - Set environment variable: `REACT_APP_BACKEND_URL=https://your-backend-url`
