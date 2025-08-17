@@ -1,174 +1,70 @@
-# API Gateway App
+# Getting Started with Create React App
 
-A full-stack project featuring a Spring Boot backend (API Gateway) and a React frontend, supporting secure user authentication (JWT), user-specific submission and storage of public JSON API URLs, and personalized dashboard views.
+This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
----
+## Available Scripts
 
-## Features
+In the project directory, you can run:
 
-- JWT-based authentication
-- User registration and login
-- Submit and store public JSON API URLs
-- Display user-specific saved API responses
-- Secure token-authenticated requests
+### `npm start`
 
----
+Runs the app in the development mode.\
+Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
 
-## Project Structure
+The page will reload when you make changes.\
+You may also see any lint errors in the console.
 
-gateway as a backend
+### `npm test`
 
-api-gateway-app/
-├── gateway/ # Spring Boot project
-├── frontend/ # React project
-└── README.md
+Launches the test runner in the interactive watch mode.\
+See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
 
----
+### `npm run build`
 
-## Tech Stack
+Builds the app for production to the `build` folder.\
+It correctly bundles React in production mode and optimizes the build for the best performance.
 
-- **Backend:** Spring Boot, Java, PostgreSQL, JPA, Spring Security
-- **Frontend:** React, Axios, JavaScript
-- **CI/CD:** GitLab CI
-- **Deployment:** Railway (backend), Vercel (frontend)
+The build is minified and the filenames include the hashes.\
+Your app is ready to be deployed!
 
----
+See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
 
-## Prerequisites
+### `npm run eject`
 
-- Java 17+ or 21+
-- Node.js 18+ and npm
-- PostgreSQL
-- Maven
+**Note: this is a one-way operation. Once you `eject`, you can't go back!**
 
----
+If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
 
-## Local Setup
+Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
 
-### 1. Clone the Repository
+You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
 
-git clone https://gitlab.com/abhir99-group/api-gateway-app.git
+## Learn More
 
-### 2. Backend (Spring Boot)
+You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
 
-- Configure PostgreSQL connection and CORS in `backend/src/main/resources/application.properties`:
+To learn React, check out the [React documentation](https://reactjs.org/).
 
-  ```
-  spring.datasource.url=${DB_URL}
-  spring.datasource.username=${DB_USER}
-  spring.datasource.password=${DB_PASS}
-  spring.datasource.driver-class-name=org.postgresql.Driver
-  allowed.origin=${ALLOWED_ORIGIN}
-  jwt.secret=${JWT_SECRET}
-  ```
+### Code Splitting
 
-- Install dependencies and start:
-  ```
-  cd backend
-  mvn clean install
-  mvn spring-boot:run
-  # Runs on http://localhost:8080 locally
-  ```
+This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
 
-### 3. Frontend (React)
+### Analyzing the Bundle Size
 
-- Create file `frontend/.env`:
+This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
 
-  ```
-  REACT_APP_BACKEND_URL=http://localhost:8080
-  ```
+### Making a Progressive Web App
 
-- Install dependencies and start:
-  ```
-  cd frontend
-  npm install
-  npm start
-  # Opens on http://localhost:3000
-  ```
+This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
 
----
+### Advanced Configuration
 
-## Build (Production)
+This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
 
-### Backend
+### Deployment
 
-cd gateway
-mvn clean package
+This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
 
-Output: gateway/target/api-gateway-app.jar
+### `npm run build` fails to minify
 
-### Frontend
-
-cd frontend
-npm run build
-
-Output: frontend/build directory
-
----
-
-## Deployment
-
-- **Backend:** Deploy to [Railway](https://railway.app)
-  - Set environment variables: `DB_URL`, `DB_USER`, `DB_PASS`, `JWT_SECRET`, `ALLOWED_ORIGIN`
-  - Start command: `java -jar target/gateway.jar`
-  - Update `allowed.origin=${ALLOWED_ORIGIN}` in `application.properties`
-- **Frontend:** Deploy to [Vercel](https://vercel.com)
-  - Set environment variable: `REACT_APP_BACKEND_URL=https://your-backend-url`
-  - Vercel/Netlify will auto-build React apps
-
----
-
-## Environment Variables
-
-| Name                  | Context  | Example/Description               |
-| --------------------- | -------- | --------------------------------- |
-| REACT_APP_BACKEND_URL | Frontend | URL to deployed backend API       |
-| DB_URL                | Backend  | JDBC URL for PostgreSQL           |
-| DB_USER               | Backend  | PostgreSQL username               |
-| DB_PASS               | Backend  | PostgreSQL password               |
-| JWT_SECRET            | Backend  | Secret key for JWT                |
-| ALLOWED_ORIGIN        | Backend  | Deployed frontend domain for CORS |
-
----
-
-## Usage
-
-1. **Sign up** for an account on `/signup` page.
-2. **Sign in** on `/signin` page.
-3. **Submit** any public JSON API URL.
-4. **View** and manage your saved API responses in the dashboard.
-5. Authenticated requests to backend protected endpoints via JWT.
-
----
-
-## CI/CD Pipeline
-
-Basic build and test included via GitLab CI
-
-stages:
-
-build
-
-test
-
-gateway-build:
-stage: build
-script:
-
-- cd gateway
-- mvn clean package
-
-gateway-test:
-stage: test
-script:
-
-- cd gateway
-- mvn test
-
-frontend-build:
-stage: build
-script:
-
-- cd frontend
-- npm install
-- npm run build
+This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
