@@ -15,8 +15,8 @@ import io.jsonwebtoken.security.Keys;
 import jakarta.annotation.PostConstruct;
 import lombok.extern.slf4j.Slf4j;
 
-@Component
 @Slf4j
+@Component
 public class JwtTokenProvider {
 
 	@Value("${jwt.secret}")
