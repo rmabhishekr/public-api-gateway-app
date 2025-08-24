@@ -11,8 +11,9 @@
 	<groupId>com.tibil.assessment</groupId>
 	<artifactId>gateway</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
+	<packaging>jar</packaging>
 	<name>gateway</name>
-	<description>Public API Gateway App – Consumer &amp;amp; Dashboard Portal</description>
+	<description>Public API Gateway App – Consumer Dashboard Portal</description>
 	<url/>
 	<licenses>
 		<license/>
