@@ -7,6 +7,7 @@ function Dashboard({ token, onLogout }) {
   const [apiUrl, setApiUrl] = useState("");
   const [loading, setLoading] = useState(false);
   const backendUrl = import.meta.env.VITE_BACKEND_URL;
+  const [openMenuIdx, setOpenMenuIdx] = useState(null);
 
   // Fetch stored APIs on mount or token change
   useEffect(() => {
@@ -47,6 +48,24 @@ function Dashboard({ token, onLogout }) {
       setError("Failed to submit API URL.");
     } finally {
       setLoading(false);
+    }
+  };
+
+  const handleMenuClick = (id) => {
+    setOpenMenuIdx(openMenuIdx === id ? null : id);
+  };
+
+  const handleDelete = async (id) => {
+    try {
+      await axios.delete(`${backendUrl}/api/${id}`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      // Remove the deleted item from state for instant UI update:
+      setItems((prev) => prev.filter((item) => item.id !== id));
+      setOpenMenuIdx(null);
+    } catch (err) {
+      setError("Failed to delete API URL.");
+      setOpenMenuIdx(null);
     }
   };
 
@@ -91,19 +110,70 @@ function Dashboard({ token, onLogout }) {
           <div className="text-gray-400 text-center">No APIs stored yet.</div>
         ) : (
           <ul className="space-y-6 max-h-[400px] overflow-y-auto">
-            {items.map((item, idx) => (
-              <li key={idx} className="bg-gray-700 rounded p-4 shadow-inner">
-                <p>
-                  <strong>URL:</strong>{" "}
-                  <a
-                    href={item.url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-blue-400 hover:underline"
-                  >
-                    {item.url}
-                  </a>
-                </p>
+            {items.map((item) => (
+              <li
+                key={item.id}
+                className="bg-gray-700 rounded p-4 shadow-inner"
+              >
+                <div className="flex items-center justify-between">
+                  <p>
+                    <strong>URL:</strong>{" "}
+                    <a
+                      href={item.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-blue-400 hover:underline"
+                    >
+                      {item.url}
+                    </a>
+                  </p>
+
+                  {/* Three Dots (Kebab) Menu Button */}
+                  <div className="relative">
+                    <button
+                      onClick={() => handleMenuClick(item.id)}
+                      className="p-1 rounded-full hover:bg-gray-600 focus:outline-none"
+                      aria-label="More options"
+                      type="button"
+                    >
+                      <svg
+                        width="20"
+                        height="20"
+                        fill="currentColor"
+                        className="text-gray-300"
+                      >
+                        <circle cx="4" cy="10" r="2" />
+                        <circle cx="10" cy="10" r="2" />
+                        <circle cx="16" cy="10" r="2" />
+                      </svg>
+                    </button>
+                    {/* Dropdown Menu */}
+                    {openMenuIdx === item.id && (
+                      <div className="absolute right-0 mt-2 w-28 bg-gray-800 rounded shadow-lg z-10">
+                        <button
+                          onClick={() => {
+                            setOpenMenuIdx(null);
+                            // Handle edit logic here
+                            alert("Edit not implemented yet");
+                          }}
+                          className="w-full text-left px-4 py-2 hover:bg-gray-700 text-gray-200 rounded-t"
+                        >
+                          Edit
+                        </button>
+                        <button
+                          onClick={() => {
+                            console.log("Deleting id:", item.id, item);
+                            handleDelete(item.id);
+                          }}
+                          className="w-full text-left px-4 py-2 hover:bg-gray-700 text-red-400 rounded-b"
+                        >
+                          Delete
+                        </button>
+                      </div>
+                    )}
+                  </div>
+                </div>
+
                 <p className="mt-2">
                   <strong>Response:</strong>
                 </p>
