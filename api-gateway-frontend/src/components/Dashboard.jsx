@@ -178,7 +178,7 @@ function Dashboard({ token, onLogout }) {
                   <strong>Response:</strong>
                 </p>
                 <pre className="mt-1 max-h-48 overflow-auto rounded bg-gray-800 p-3 text-xs font-mono text-green-300">
-                  {item.jsonResponse}
+                  {item.responseJson}
                 </pre>
               </li>
             ))}
