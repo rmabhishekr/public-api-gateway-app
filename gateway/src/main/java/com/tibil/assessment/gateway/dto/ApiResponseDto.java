@@ -10,6 +10,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class ApiResponseDto {
 
+    private String id;
 	private String url;
-    private String jsonResponse;
+    private String responseJson;
 }

@@ -36,6 +36,6 @@ public class ApiUrl {
 	@JoinColumn(name = "user_id")
 	private User user;
 	private Instant createdAt = Instant.now();
-	@OneToOne(mappedBy = "apiUrl", cascade = CascadeType.ALL, orphanRemoval = true)
+	@OneToOne(mappedBy = "apiUrl", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     private ApiResponse apiResponse;
 }

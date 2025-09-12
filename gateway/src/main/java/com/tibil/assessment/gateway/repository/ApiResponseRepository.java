@@ -11,8 +11,8 @@ import com.tibil.assessment.gateway.entity.User;
 
 public interface ApiResponseRepository extends JpaRepository<ApiResponse, String> {
 
-	@Query("SELECT new com.tibil.assessment.gateway.dto.ApiResponseDto(au.url, ar.responseJson) " 
-	+ "FROM ApiUrl au JOIN au.apiResponse ar WHERE au.user = :user")
+	@Query("SELECT new com.tibil.assessment.gateway.dto.ApiResponseDto(au.id, au.url, ar.responseJson) " 
+	+ "FROM ApiUrl au LEFT JOIN au.apiResponse ar WHERE au.user = :user")
 	List<ApiResponseDto> findByUserWithJson(User user);
 	
 }

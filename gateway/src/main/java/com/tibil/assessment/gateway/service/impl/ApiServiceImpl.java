@@ -68,7 +68,7 @@ public class ApiServiceImpl implements ApiService {
 		
 		apiUrl.setApiResponse(response);
 		
-		return new ApiResponseDto(apiUrl.getUrl(), response.getResponseJson());
+		return new ApiResponseDto(apiUrl.getId(), apiUrl.getUrl(), response.getResponseJson());
 	}
 
 	@Override
@@ -87,11 +87,20 @@ public class ApiServiceImpl implements ApiService {
 							if(apiUrl.getApiResponse() != null) {
 								responseJson = apiUrl.getApiResponse().getResponseJson();
 							}
-					return new ApiResponseDto(apiUrl.getUrl(), responseJson);
+					return new ApiResponseDto(apiUrl.getId(), apiUrl.getUrl(), responseJson);
 				}).collect(Collectors.toList());
 		return dtos;
 	}
 
-	
+	@Override
+	@Transactional
+	public void deleteUrlForUser(String id, String username) {
+		User user = userRepository.findByUsername(username)
+		        .orElseThrow(() -> new ResourceNotFoundException("User not found: " + username));
+			
+		    ApiUrl apiUrl = apiUrlRepository.findByIdAndUser(id, user)
+		    		.orElseThrow(() -> new ResourceNotFoundException("URL not found for this user"));
+		    apiUrlRepository.delete(apiUrl);
+	}
 
 }

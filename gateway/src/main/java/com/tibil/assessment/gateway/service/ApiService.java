@@ -9,4 +9,5 @@ public interface ApiService {
 
 	ApiResponseDto addAndFetchApi(ApiUrlRequest request, String username);
 	List<ApiResponseDto> getAllApiResponses(String username);
+	void deleteUrlForUser(String id, String username);
 }
