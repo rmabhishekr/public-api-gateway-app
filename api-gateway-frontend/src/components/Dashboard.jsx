@@ -6,8 +6,10 @@ function Dashboard({ token, onLogout }) {
   const [error, setError] = useState("");
   const [apiUrl, setApiUrl] = useState("");
   const [loading, setLoading] = useState(false);
-  const backendUrl = import.meta.env.VITE_BACKEND_URL;
   const [openMenuIdx, setOpenMenuIdx] = useState(null);
+  const [username, setUsername] = useState("");
+  const displayName = username ? username.split(".")[0] : "";
+  const backendUrl = import.meta.env.VITE_BACKEND_URL;
 
   // Fetch stored APIs on mount or token change
   useEffect(() => {
@@ -24,6 +26,21 @@ function Dashboard({ token, onLogout }) {
       }
     }
     if (token) fetchDashboard();
+  }, [token, backendUrl]);
+
+  useEffect(() => {
+    async function fetchUsername() {
+      try {
+        const res = await axios.get(`${backendUrl}/api/me`, {
+          headers: { Authorization: `Bearer ${token}` },
+        });
+        console.log("Fetched user:", res.data);
+        setUsername(res.data.Username.toUpperCase());
+      } catch {
+        setUsername("");
+      }
+    }
+    if (token) fetchUsername();
   }, [token, backendUrl]);
 
   // Submit new public API URL
@@ -73,7 +90,14 @@ function Dashboard({ token, onLogout }) {
     <div className="min-h-screen bg-gray-900 text-white p-6">
       <div className="max-w-4xl mx-auto bg-gray-800 rounded-xl p-6 shadow-lg">
         <div className="flex justify-between items-center mb-6">
-          <h2 className="text-3xl font-semibold">Your Stored API Responses</h2>
+          <div>
+            <h2 className="text-3xl font-semibold">
+              Your Stored API Responses
+            </h2>
+            <p className="text-gray-300 mt-1">
+              {displayName && `Hey, ${displayName}`}
+            </p>
+          </div>
           <button
             onClick={onLogout}
             className="px-4 py-2 bg-red-600 hover:bg-red-700 rounded font-semibold transition"
