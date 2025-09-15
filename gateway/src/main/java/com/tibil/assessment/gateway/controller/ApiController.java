@@ -1,6 +1,7 @@
 package com.tibil.assessment.gateway.controller;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.tibil.assessment.gateway.dto.ApiResponseDto;
 import com.tibil.assessment.gateway.dto.ApiUrlRequest;
+import com.tibil.assessment.gateway.repository.UserRepository;
 import com.tibil.assessment.gateway.service.ApiService;
 
 import jakarta.validation.Valid;
@@ -26,6 +28,7 @@ import lombok.RequiredArgsConstructor;
 public class ApiController {
 
 	private final ApiService apiService;
+	private final UserRepository userRepository;
 	
 	@PostMapping("/add")
 	public ResponseEntity<ApiResponseDto> addApiUrl(
@@ -40,6 +43,11 @@ public class ApiController {
 			@AuthenticationPrincipal UserDetails userDetails){
 		List<ApiResponseDto> response = apiService.getAllApiResponses(userDetails.getUsername());
 		return ResponseEntity.ok(response);
+	}
+
+	@GetMapping("/me")
+	public ResponseEntity<?> getCurrentUser(@AuthenticationPrincipal UserDetails userDetails){
+		return ResponseEntity.ok().body(Map.of("Username", userDetails.getUsername()));
 	}
 
 	@DeleteMapping("/{id}")
