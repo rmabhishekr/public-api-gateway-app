@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import InactivityLogoutTimer from "./InactivityLogoutTimer";
 
 function Dashboard({ token, onLogout }) {
   const [items, setItems] = useState([]);
