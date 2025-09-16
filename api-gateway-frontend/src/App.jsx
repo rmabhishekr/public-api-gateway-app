@@ -14,8 +14,9 @@ function App() {
   };
 
   const handleLogout = () => {
-    setToken("");
     localStorage.removeItem("jwtToken");
+    localStorage.removeItem("username");
+    setToken("");
   };
 
   // Protect dashboard route
