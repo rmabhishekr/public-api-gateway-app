@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import InactivityLogoutTimer from "./InactivityLogoutTimer";
+import { toast } from "react-toastify";
 
 function Dashboard({ token, onLogout }) {
   const [items, setItems] = useState([]);
@@ -62,6 +63,7 @@ function Dashboard({ token, onLogout }) {
         headers: { Authorization: `Bearer ${token}` },
       });
       setItems(res.data);
+      toast.success("Success");
     } catch (err) {
       setError("Failed to submit API URL.");
     } finally {

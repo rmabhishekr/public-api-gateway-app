@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
-const INACTIVITY_LIMIT = 1 * 60 * 1000;
+const INACTIVITY_LIMIT = 15 * 60 * 1000;
 
 export default function InactivityLogoutTimer({ onLogout }) {
   const navigate = useNavigate();
