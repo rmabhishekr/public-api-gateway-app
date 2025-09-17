@@ -36,7 +36,6 @@ function Dashboard({ token, onLogout }) {
         const res = await axios.get(`${backendUrl}/api/me`, {
           headers: { Authorization: `Bearer ${token}` },
         });
-        console.log("Fetched user:", res.data);
         setUsername(res.data.Username.toUpperCase());
       } catch {
         setUsername("");
@@ -188,7 +187,6 @@ function Dashboard({ token, onLogout }) {
                         </button>
                         <button
                           onClick={() => {
-                            console.log("Deleting id:", item.id, item);
                             handleDelete(item.id);
                           }}
                           className="w-full text-left px-4 py-2 hover:bg-gray-700 text-red-400 rounded-b"
