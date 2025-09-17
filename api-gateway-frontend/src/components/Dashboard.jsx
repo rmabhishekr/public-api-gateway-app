@@ -66,6 +66,7 @@ function Dashboard({ token, onLogout }) {
       toast.success("Success");
     } catch (err) {
       setError("Failed to submit API URL.");
+      toast.error("Failed to submit API URL.");
     } finally {
       setLoading(false);
     }
