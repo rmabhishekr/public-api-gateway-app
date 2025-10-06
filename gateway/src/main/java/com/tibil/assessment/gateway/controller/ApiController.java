@@ -35,7 +35,7 @@ public class ApiController {
 			@Valid @RequestBody ApiUrlRequest request,
 			@AuthenticationPrincipal UserDetails userDetails) {
 		ApiResponseDto response = apiService.addAndFetchApi(request, userDetails.getUsername());
-		ResponseEntity<String> forEntityRes = restTemplate.getForEntity(response.getUrl(), String.class);
+		ResponseEntity<String> forEntityRes = restTemplate.getForEntity(request.getUrl(), String.class);
 		if(forEntityRes.getStatusCodeValue() == 429) {
 			throw new RuntimeException("YouTube is blocking automated requests. Try again later or use official API.");
 		}
