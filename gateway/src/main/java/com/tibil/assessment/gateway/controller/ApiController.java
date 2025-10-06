@@ -13,10 +13,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.client.RestTemplate;
 
 import com.tibil.assessment.gateway.dto.ApiResponseDto;
 import com.tibil.assessment.gateway.dto.ApiUrlRequest;
-import com.tibil.assessment.gateway.repository.UserRepository;
 import com.tibil.assessment.gateway.service.ApiService;
 
 import jakarta.validation.Valid;
@@ -28,13 +28,17 @@ import lombok.RequiredArgsConstructor;
 public class ApiController {
 
 	private final ApiService apiService;
-	private final UserRepository userRepository;
+	private final RestTemplate restTemplate = new RestTemplate();
 	
 	@PostMapping("/add")
 	public ResponseEntity<ApiResponseDto> addApiUrl(
 			@Valid @RequestBody ApiUrlRequest request,
 			@AuthenticationPrincipal UserDetails userDetails) {
 		ApiResponseDto response = apiService.addAndFetchApi(request, userDetails.getUsername());
+		ResponseEntity<String> forEntityRes = restTemplate.getForEntity(request.getUrl(), String.class);
+		if(forEntityRes.getStatusCodeValue() == 429) {
+			throw new RuntimeException("YouTube is blocking automated requests. Try again later or use official API.");
+		}
 		return ResponseEntity.ok(response);
 	}
 	
