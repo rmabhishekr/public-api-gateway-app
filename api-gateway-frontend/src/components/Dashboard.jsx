@@ -64,8 +64,18 @@ function Dashboard({ token, onLogout }) {
       setItems(res.data);
       toast.success("Success");
     } catch (err) {
-      setError("Failed to submit API URL.");
-      toast.error("Failed to submit API URL.");
+      if (err.response && err.response.status === 429) {
+        setError(
+          err.response.data?.error ||
+            "YouTube is blocking automated access. Please use the official API or try another URL."
+        );
+        toast.error(
+          err.response.data?.error || "YouTube is blocking automated access."
+        );
+      } else {
+        setError("Failed to submit API URL.");
+        toast.error("Failed to submit API URL.");
+      }
     } finally {
       setLoading(false);
     }
